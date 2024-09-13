@@ -1,33 +1,60 @@
 package com.room.hotel.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
-@JsonInclude(NON_NULL)
-@SuperBuilder
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "sejour")
-public class Sejour extends AuditEntity {
+public class Sejour {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    private String codeSejour;
+
+    private String nomPrenom;
+    private String emailClient;
+    private String contactClient;
 
     private String description;
     private Long nbrPersonnes;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
-    private LocalDateTime dateArrivee;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
-    private LocalDateTime dateDepart;
     private Long dureeSejour;
+    private String montantTotal;
+
+    private String dateArrivee;
+    private String dateDepart;
 
     private UUID idUtilisateur;
-    private UUID idClient;
+    private UUID idChambre;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    @Column(insertable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
+    private LocalDateTime lastModifiedDate;
 }

@@ -1,19 +1,24 @@
 package com.room.hotel.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class ChambreDto extends AuditEntityDto {
+import com.room.hotel.model.Chambre;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class ChambreDto {
+    private UUID id;
+    @NotBlank(message = "Numéro de chambre manquant!")
     private String numero;
+    @NotBlank(message = "Localisation de la chambre manquante!")
     private String localisation;
-    private String type;
-    private String etatChambre;
+    @NotNull(message = "Type de chambre requis!")
+    private Chambre.Type typeChambre;
+    @NotNull(message = "État de la chambre requis!")
+    private Chambre.Etat etatChambre;
+    @NotBlank(message = "Prix de la chambre requis!")
     private String prix;
 }

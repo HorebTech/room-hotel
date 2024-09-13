@@ -2,21 +2,27 @@ package com.room.hotel.dto;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class SejourDto extends AuditEntityDto {
+@Data
+public class SejourDto {
+
+    private UUID id;
+
+    private String codeSejour;
+
+    private String nomPrenom;
+    private String emailClient;
+    private String contactClient;
 
     private String description;
     private Long nbrPersonnes;
     private Long dureeSejour;
+    private String montantTotal;
+
+    private String dateArrivee;
+    private String dateDepart;
 
     private UUID idUtilisateur;
-    private UUID idClient;
+    private UUID idChambre;
 }

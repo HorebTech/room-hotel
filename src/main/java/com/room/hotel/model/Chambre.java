@@ -1,30 +1,72 @@
 package com.room.hotel.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
-import com.room.hotel.enums.EtatChambreStatus;
-import com.room.hotel.enums.TypeChambreStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Getter
-@Setter
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@JsonInclude(NON_NULL)
-@SuperBuilder
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Table(name = "chambre")
-public class Chambre extends AuditEntity {
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
+public class Chambre {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    @NotBlank
+    @Column(unique = true)
     private String numero;
     private String localisation;
+
     @Enumerated(EnumType.STRING)
-    private TypeChambreStatus type;
+    private Type typeChambre;
     @Enumerated(EnumType.STRING)
-    private EtatChambreStatus etatChambre;
+    private Etat etatChambre;
     private String prix;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
+    private LocalDateTime createdDate;
+    @LastModifiedDate
+    @Column(insertable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy ' à ' HH:mm:ss")
+    private LocalDateTime lastModifiedDate;
+
+    public enum Type {
+        SUITE,
+        DOUBLE,
+        SIMPLE,
+        LUXE,
+        TRIPLE
+    }
+
+    public enum Etat {
+        LIBRE,
+        NETTOYAGE,
+        OCCUPEE
+    }
 
 }

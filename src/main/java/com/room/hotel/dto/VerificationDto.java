@@ -1,22 +1,19 @@
 package com.room.hotel.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.room.hotel.model.Verification;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class VerificationDto extends AuditEntityDto {
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-    private String etatVerification;
+@Data
+public class VerificationDto {
+    private UUID id;
+    private Verification.Etat etatVerification;
     private String observation;
-
+    @NotNull(message = "Chambre concernée requise!")
     private UUID idChambre;
-    private UUID idUtilisateur;
-    private UUID idChecklist;
+    private LocalDateTime createdDate;
 }

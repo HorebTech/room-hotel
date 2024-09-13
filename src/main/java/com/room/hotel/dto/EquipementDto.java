@@ -2,20 +2,19 @@ package com.room.hotel.dto;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.room.hotel.model.Equipement;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class EquipementDto extends AuditEntityDto {
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
+public class EquipementDto {
+
+    private UUID id;
+    @NotNull(message = "Nom de l'équipement requis!")
     private String nom;
     private String description;
-    private String etatEquipement;
+    private Equipement.Etat etatEquipement;
 
     private UUID idChambre;
 }
